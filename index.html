@@ -348,6 +348,10 @@
         .replace(/'/g, "&#39;");
     }
 
+    function escapeJsAttr(str) {
+      return escapeHtml(String(str ?? "").replace(/\\/g, "\\\\").replace(/'/g, "\\'"));
+    }
+
     function formatDateIndo(dateStr) {
       if (!dateStr) return "-";
       const months = [
@@ -1581,8 +1585,8 @@
                   <div class="pt-3 border-t border-roseBorder flex items-center justify-between text-xs">
                     <span class="text-taupe font-bold">${countStd} Peserta Didik</span>
                     <div class="flex items-center gap-2">
-                      <button type="button" onclick="window.appActions.openClassModal('${cls.id}')" class="px-3 py-1.5 rounded-full bg-blush hover:bg-peach text-espresso font-bold transition">Edit</button>
-                      <button type="button" onclick="window.appActions.deleteClass('${cls.id}')" class="px-3 py-1.5 rounded-full bg-rose-50 hover:bg-rose-600 hover:text-white text-rose-600 font-bold transition">Hapus</button>
+                      <button type="button" onclick="window.appActions.openClassModal('${escapeJsAttr(cls.id)}')" class="px-3 py-1.5 rounded-full bg-blush hover:bg-peach text-espresso font-bold transition">Edit</button>
+                      <button type="button" onclick="window.appActions.deleteClass('${escapeJsAttr(cls.id)}')" class="px-3 py-1.5 rounded-full bg-rose-50 hover:bg-rose-600 hover:text-white text-rose-600 font-bold transition">Hapus</button>
                     </div>
                   </div>
                 </div>
@@ -1672,7 +1676,7 @@
             <div class="flex flex-wrap items-center gap-3">
               <select onchange="window.appActions.setClassFilter(this.value)" class="px-4 py-2.5 rounded-full border border-roseBorder bg-blush/60 text-xs font-extrabold text-espresso focus:outline-none">
                 <option value="">Semua Kelas (${state.data.students.length})</option>
-                ${state.data.classes.map(c => `<option value="${c.id}" ${state.selectedClassFilter === c.id ? "selected" : ""}>${escapeHtml(c.name)}</option>`).join("")}
+                ${state.data.classes.map(c => `<option value="${escapeHtml(c.id)}" ${state.selectedClassFilter === c.id ? "selected" : ""}>${escapeHtml(c.name)}</option>`).join("")}
               </select>
             </div>
 
@@ -1719,8 +1723,8 @@
                           : `<span class="px-2.5 py-1 rounded-full bg-gray-100 text-taupe font-bold text-[11px]">Bukan</span>`}
                       </td>
                       <td class="py-3 px-4 text-right space-x-1.5 whitespace-nowrap">
-                        <button type="button" onclick="window.appActions.openStudentModal('${st.id}')" class="px-3 py-1 rounded-full bg-blush hover:bg-peach font-bold">Edit</button>
-                        <button type="button" onclick="window.appActions.deleteStudent('${st.id}')" class="px-3 py-1 rounded-full bg-rose-50 hover:bg-rose-600 hover:text-white text-rose-600 font-bold">Hapus</button>
+                        <button type="button" onclick="window.appActions.openStudentModal('${escapeJsAttr(st.id)}')" class="px-3 py-1 rounded-full bg-blush hover:bg-peach font-bold">Edit</button>
+                        <button type="button" onclick="window.appActions.deleteStudent('${escapeJsAttr(st.id)}')" class="px-3 py-1 rounded-full bg-rose-50 hover:bg-rose-600 hover:text-white text-rose-600 font-bold">Hapus</button>
                       </td>
                     </tr>
                   `).join("")}
@@ -1748,7 +1752,7 @@
             <div>
               <label class="block text-xs font-bold text-espresso mb-1.5">Kelas</label>
               <select id="std-class" class="w-full px-4 py-2.5 rounded-2xl border border-roseBorder bg-blush/50 text-sm focus:outline-none focus:border-salmon">
-                ${state.data.classes.map(c => `<option value="${c.id}" ${existing?.classId === c.id ? "selected" : ""}>${escapeHtml(c.name)}</option>`).join("")}
+                ${state.data.classes.map(c => `<option value="${escapeHtml(c.id)}" ${existing?.classId === c.id ? "selected" : ""}>${escapeHtml(c.name)}</option>`).join("")}
               </select>
             </div>
           </div>
@@ -1833,7 +1837,7 @@
           <div>
             <label class="block text-xs font-bold text-espresso mb-1.5">Pilih Kelas Tujuan Import</label>
             <select id="imp-std-class" class="w-full px-4 py-2.5 rounded-2xl border border-roseBorder bg-blush/50 text-sm">
-              ${state.data.classes.map(c => `<option value="${c.id}">${escapeHtml(c.name)}</option>`).join("")}
+              ${state.data.classes.map(c => `<option value="${escapeHtml(c.id)}">${escapeHtml(c.name)}</option>`).join("")}
             </select>
           </div>
           <div>
@@ -1987,8 +1991,8 @@
                       <td class="py-3 px-4">${escapeHtml(sch.subject)}</td>
                       <td class="py-3 px-4 text-taupe">${escapeHtml(sch.room || "-")}</td>
                       <td class="py-3 px-4 text-right space-x-1.5">
-                        <button type="button" onclick="window.appActions.openScheduleModal('${sch.id}')" class="px-3 py-1 rounded-full bg-blush hover:bg-peach font-bold">Edit</button>
-                        <button type="button" onclick="window.appActions.deleteSchedule('${sch.id}')" class="px-3 py-1 rounded-full bg-rose-50 hover:bg-rose-600 hover:text-white text-rose-600 font-bold">Hapus</button>
+                        <button type="button" onclick="window.appActions.openScheduleModal('${escapeJsAttr(sch.id)}')" class="px-3 py-1 rounded-full bg-blush hover:bg-peach font-bold">Edit</button>
+                        <button type="button" onclick="window.appActions.deleteSchedule('${escapeJsAttr(sch.id)}')" class="px-3 py-1 rounded-full bg-rose-50 hover:bg-rose-600 hover:text-white text-rose-600 font-bold">Hapus</button>
                       </td>
                     </tr>
                   `).join("")}
@@ -2018,7 +2022,7 @@
             <div>
               <label class="block text-xs font-bold text-espresso mb-1.5">Kelas</label>
               <select id="sch-class" class="w-full px-4 py-2.5 rounded-2xl border border-roseBorder bg-blush/50 text-sm">
-                ${state.data.classes.map(c => `<option value="${c.id}" ${existing?.classId === c.id ? "selected" : ""}>${escapeHtml(c.name)}</option>`).join("")}
+                ${state.data.classes.map(c => `<option value="${escapeHtml(c.id)}" ${existing?.classId === c.id ? "selected" : ""}>${escapeHtml(c.name)}</option>`).join("")}
               </select>
             </div>
           </div>
@@ -2147,8 +2151,8 @@
                     <span class="text-xs text-taupe font-bold">${escapeHtml(j.timeSlot || "")}</span>
                   </div>
                   <div class="space-x-1.5">
-                    <button type="button" onclick="window.appActions.openJournalModal('${j.id}')" class="px-3 py-1 rounded-full bg-blush hover:bg-peach text-xs font-bold">Edit</button>
-                    <button type="button" onclick="window.appActions.deleteJournal('${j.id}')" class="px-3 py-1 rounded-full bg-rose-50 hover:bg-rose-600 hover:text-white text-rose-600 text-xs font-bold">Hapus</button>
+                    <button type="button" onclick="window.appActions.openJournalModal('${escapeJsAttr(j.id)}')" class="px-3 py-1 rounded-full bg-blush hover:bg-peach text-xs font-bold">Edit</button>
+                    <button type="button" onclick="window.appActions.deleteJournal('${escapeJsAttr(j.id)}')" class="px-3 py-1 rounded-full bg-rose-50 hover:bg-rose-600 hover:text-white text-rose-600 text-xs font-bold">Hapus</button>
                   </div>
                 </div>
                 <h3 class="text-base font-extrabold text-espresso">${escapeHtml(j.topic)}</h3>
@@ -2189,7 +2193,7 @@
             <div>
               <label class="block text-xs font-bold text-espresso mb-1.5">Kelas</label>
               <select id="jrn-class" class="w-full px-3 py-2.5 rounded-2xl border border-roseBorder bg-blush/50 text-xs">
-                ${state.data.classes.map(c => `<option value="${c.id}" ${existing?.classId === c.id ? "selected" : ""}>${escapeHtml(c.name)}</option>`).join("")}
+                ${state.data.classes.map(c => `<option value="${escapeHtml(c.id)}" ${existing?.classId === c.id ? "selected" : ""}>${escapeHtml(c.name)}</option>`).join("")}
               </select>
             </div>
             <div>
@@ -2388,10 +2392,10 @@
             </div>
 
             <div class="flex flex-wrap items-center gap-2.5">
-              <select onchange="window.appActions.onAttendanceFilterChange(this.value, '${activeDate}', '')" class="px-4 py-2.5 rounded-full border border-roseBorder bg-blush/60 text-xs font-extrabold text-espresso">
-                ${classes.map(c => `<option value="${c.id}" ${activeClassId === c.id ? "selected" : ""}>${escapeHtml(c.name)}</option>`).join("")}
+              <select onchange="window.appActions.onAttendanceFilterChange(this.value, '${escapeJsAttr(activeDate)}', '')" class="px-4 py-2.5 rounded-full border border-roseBorder bg-blush/60 text-xs font-extrabold text-espresso">
+                ${classes.map(c => `<option value="${escapeHtml(c.id)}" ${activeClassId === c.id ? "selected" : ""}>${escapeHtml(c.name)}</option>`).join("")}
               </select>
-              <button type="button" onclick="window.appActions.printAttendancePdf('${activeClassId}')" class="px-4 py-2.5 rounded-full bg-blush hover:bg-peach text-espresso font-extrabold text-xs border border-roseBorder transition flex items-center gap-1.5">
+              <button type="button" onclick="window.appActions.printAttendancePdf('${escapeJsAttr(activeClassId)}')" class="px-4 py-2.5 rounded-full bg-blush hover:bg-peach text-espresso font-extrabold text-xs border border-roseBorder transition flex items-center gap-1.5">
                 <i data-lucide="printer" class="w-3.5 h-3.5 text-coralDark"></i> Cetak PDF Rekap
               </button>
             </div>
@@ -2403,11 +2407,11 @@
               <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3.5 items-end">
                 <div>
                   <label class="block text-[11px] font-extrabold text-taupe uppercase mb-1">Tanggal (${escapeHtml(dayLabel)})</label>
-                  <input type="date" value="${escapeHtml(activeDate)}" onchange="window.appActions.onAttendanceFilterChange('${activeClassId}', this.value, '')" class="w-full px-4 py-2.5 rounded-2xl border border-roseBorder bg-blush/50 text-xs font-bold" />
+                  <input type="date" value="${escapeHtml(activeDate)}" onchange="window.appActions.onAttendanceFilterChange('${escapeJsAttr(activeClassId)}', this.value, '')" class="w-full px-4 py-2.5 rounded-2xl border border-roseBorder bg-blush/50 text-xs font-bold" />
                 </div>
                 <div>
                   <label class="block text-[11px] font-extrabold text-taupe uppercase mb-1">Jam Pelajaran</label>
-                  <select onchange="window.appActions.onAttendanceFilterChange('${activeClassId}', '${activeDate}', this.value)" class="w-full px-4 py-2.5 rounded-2xl border border-roseBorder bg-blush/50 text-xs font-bold">
+                  <select onchange="window.appActions.onAttendanceFilterChange('${escapeJsAttr(activeClassId)}', '${escapeJsAttr(activeDate)}', this.value)" class="w-full px-4 py-2.5 rounded-2xl border border-roseBorder bg-blush/50 text-xs font-bold">
                     ${slots.map(sl => `<option value="${escapeHtml(sl)}" ${activeSlot === sl ? "selected" : ""}>${escapeHtml(sl)}</option>`).join("")}
                   </select>
                 </div>
@@ -2451,7 +2455,7 @@
                                 { code: "A", label: "A", activeCls: "peer-checked:bg-rose-600 peer-checked:text-white peer-checked:border-rose-600" }
                               ].map(opt => `
                                 <label class="cursor-pointer">
-                                  <input type="radio" name="att_st_${st.id}" value="${opt.code}" ${rec.status === opt.code ? "checked" : ""} class="sr-only peer att-radio-item" />
+                                  <input type="radio" name="att_st_${escapeHtml(st.id)}" value="${opt.code}" ${rec.status === opt.code ? "checked" : ""} class="sr-only peer att-radio-item" />
                                   <span class="w-8 h-8 rounded-full border border-roseBorder bg-blush text-taupe font-extrabold text-xs flex items-center justify-center transition ${opt.activeCls}">
                                     ${opt.label}
                                   </span>
@@ -2460,7 +2464,7 @@
                             </div>
                           </td>
                           <td class="py-3 px-4">
-                            <input type="text" id="att_note_${st.id}" value="${escapeHtml(rec.note || "")}" placeholder="Catatan opsional..." class="w-full px-3 py-1.5 rounded-xl border border-roseBorder bg-blush/40 text-xs" />
+                            <input type="text" id="att_note_${escapeHtml(st.id)}" value="${escapeHtml(rec.note || "")}" placeholder="Catatan opsional..." class="w-full px-3 py-1.5 rounded-xl border border-roseBorder bg-blush/40 text-xs" />
                           </td>
                         </tr>
                       `;
@@ -2471,7 +2475,7 @@
 
               ${classStudents.length > 0 ? `
                 <div class="flex justify-end">
-                  <button type="button" onclick="window.appActions.saveAttendanceSession('${activeClassId}', '${activeDate}', '${escapeHtml(activeSlot)}')" class="px-7 py-3 rounded-full bg-coral hover:bg-coralDark text-white font-extrabold text-xs shadow-pill transition flex items-center gap-2">
+                  <button type="button" onclick="window.appActions.saveAttendanceSession('${escapeJsAttr(activeClassId)}', '${escapeJsAttr(activeDate)}', '${escapeJsAttr(activeSlot)}')" class="px-7 py-3 rounded-full bg-coral hover:bg-coralDark text-white font-extrabold text-xs shadow-pill transition flex items-center gap-2">
                     <i data-lucide="save" class="w-4 h-4"></i> Simpan Daftar Hadir Pertemuan Ke-${activeMeeting}
                   </button>
                 </div>
@@ -2681,12 +2685,12 @@
 
             <div class="flex flex-wrap items-center gap-2.5">
               <select onchange="window.appActions.setClassFilter(this.value)" class="px-4 py-2.5 rounded-full border border-roseBorder bg-blush/60 text-xs font-extrabold text-espresso">
-                ${classes.map(c => `<option value="${c.id}" ${activeClassId === c.id ? "selected" : ""}>${escapeHtml(c.name)} (KKTP ${getKktpForClass(c.id)})</option>`).join("")}
+                ${classes.map(c => `<option value="${escapeHtml(c.id)}" ${activeClassId === c.id ? "selected" : ""}>${escapeHtml(c.name)} (KKTP ${getKktpForClass(c.id)})</option>`).join("")}
               </select>
-              <button type="button" onclick="window.appActions.syncCbtScoresToGrades('${activeClassId}')" class="px-4 py-2.5 rounded-full bg-periwinkleDark hover:bg-periwinkle text-white font-extrabold text-xs shadow-sm transition flex items-center gap-1.5">
+              <button type="button" onclick="window.appActions.syncCbtScoresToGrades('${escapeJsAttr(activeClassId)}')" class="px-4 py-2.5 rounded-full bg-periwinkleDark hover:bg-periwinkle text-white font-extrabold text-xs shadow-sm transition flex items-center gap-1.5">
                 <i data-lucide="refresh-cw" class="w-3.5 h-3.5"></i> Tarik Nilai CBT
               </button>
-              <button type="button" onclick="window.appActions.printGradesPdf('${activeClassId}')" class="px-4 py-2.5 rounded-full bg-blush hover:bg-peach text-espresso font-extrabold text-xs border border-roseBorder transition flex items-center gap-1.5">
+              <button type="button" onclick="window.appActions.printGradesPdf('${escapeJsAttr(activeClassId)}')" class="px-4 py-2.5 rounded-full bg-blush hover:bg-peach text-espresso font-extrabold text-xs border border-roseBorder transition flex items-center gap-1.5">
                 <i data-lucide="printer" class="w-3.5 h-3.5 text-coralDark"></i> Cetak PDF Nilai
               </button>
             </div>
@@ -2725,11 +2729,11 @@
                         <td class="py-3 px-4 font-bold text-taupe">${idx + 1}</td>
                         <td class="py-3 px-4 font-extrabold text-espresso">${escapeHtml(st.name)}</td>
                         ${state.gradesTab === "input" ? `
-                          <td class="py-2 px-2 text-center"><input type="number" min="0" max="100" id="grd_tugas_${st.id}" value="${g.tugas || ""}" class="w-16 text-center py-1.5 rounded-xl border border-roseBorder bg-blush/50 font-bold" /></td>
-                          <td class="py-2 px-2 text-center"><input type="number" min="0" max="100" id="grd_uh_${st.id}" value="${g.uh || ""}" class="w-16 text-center py-1.5 rounded-xl border border-roseBorder bg-blush/50 font-bold" /></td>
-                          <td class="py-2 px-2 text-center"><input type="number" min="0" max="100" id="grd_sts_${st.id}" value="${g.sts || ""}" class="w-16 text-center py-1.5 rounded-xl border border-roseBorder bg-blush/50 font-bold" /></td>
-                          <td class="py-2 px-2 text-center"><input type="number" min="0" max="100" id="grd_sas_${st.id}" value="${g.sas || ""}" class="w-16 text-center py-1.5 rounded-xl border border-roseBorder bg-blush/50 font-bold" /></td>
-                          <td class="py-2 px-2 text-center"><input type="number" min="0" max="100" id="grd_cbt_${st.id}" value="${g.cbtScore || ""}" class="w-16 text-center py-1.5 rounded-xl border border-periwinkle/50 bg-[#F6F2FE] font-extrabold text-periwinkleDark" /></td>
+                          <td class="py-2 px-2 text-center"><input type="number" min="0" max="100" id="grd_tugas_${escapeHtml(st.id)}" value="${g.tugas || ""}" class="w-16 text-center py-1.5 rounded-xl border border-roseBorder bg-blush/50 font-bold" /></td>
+                          <td class="py-2 px-2 text-center"><input type="number" min="0" max="100" id="grd_uh_${escapeHtml(st.id)}" value="${g.uh || ""}" class="w-16 text-center py-1.5 rounded-xl border border-roseBorder bg-blush/50 font-bold" /></td>
+                          <td class="py-2 px-2 text-center"><input type="number" min="0" max="100" id="grd_sts_${escapeHtml(st.id)}" value="${g.sts || ""}" class="w-16 text-center py-1.5 rounded-xl border border-roseBorder bg-blush/50 font-bold" /></td>
+                          <td class="py-2 px-2 text-center"><input type="number" min="0" max="100" id="grd_sas_${escapeHtml(st.id)}" value="${g.sas || ""}" class="w-16 text-center py-1.5 rounded-xl border border-roseBorder bg-blush/50 font-bold" /></td>
+                          <td class="py-2 px-2 text-center"><input type="number" min="0" max="100" id="grd_cbt_${escapeHtml(st.id)}" value="${g.cbtScore || ""}" class="w-16 text-center py-1.5 rounded-xl border border-periwinkle/50 bg-[#F6F2FE] font-extrabold text-periwinkleDark" /></td>
                         ` : `
                           <td class="py-3 px-3 text-center">${g.tugas || "-"}</td>
                           <td class="py-3 px-3 text-center">${g.uh || "-"}</td>
@@ -2754,7 +2758,7 @@
 
             ${state.gradesTab === "input" && classStudents.length > 0 ? `
               <div class="flex justify-end">
-                <button type="button" onclick="window.appActions.saveAllGrades('${activeClassId}')" class="px-7 py-3 rounded-full bg-coral hover:bg-coralDark text-white font-extrabold text-xs shadow-pill transition flex items-center gap-2">
+                <button type="button" onclick="window.appActions.saveAllGrades('${escapeJsAttr(activeClassId)}')" class="px-7 py-3 rounded-full bg-coral hover:bg-coralDark text-white font-extrabold text-xs shadow-pill transition flex items-center gap-2">
                   <i data-lucide="save" class="w-4 h-4"></i> Simpan Buku Nilai
                 </button>
               </div>
@@ -2923,7 +2927,7 @@
                     <span class="px-3 py-1 rounded-full ${badgeCls} text-[11px] font-extrabold">${escapeHtml(w.category)}</span>
                     <div class="flex items-center gap-2">
                       <span class="text-[11px] text-taupe font-bold">${formatDateIndo(w.date)}</span>
-                      <button type="button" onclick="window.appActions.deleteWaliLog('${w.id}')" class="text-rose-600 hover:underline text-[11px] font-bold">Hapus</button>
+                      <button type="button" onclick="window.appActions.deleteWaliLog('${escapeJsAttr(w.id)}')" class="text-rose-600 hover:underline text-[11px] font-bold">Hapus</button>
                     </div>
                   </div>
                   <div>
@@ -2952,7 +2956,7 @@
             <div>
               <label class="block text-xs font-bold text-espresso mb-1.5">Siswa Bimbingan</label>
               <select id="wal-student" class="w-full px-3 py-2.5 rounded-2xl border border-roseBorder bg-blush/50 text-xs font-bold">
-                ${waliStudents.map(st => `<option value="${st.id}">${escapeHtml(st.name)} (${escapeHtml(st.className)})</option>`).join("")}
+                ${waliStudents.map(st => `<option value="${escapeHtml(st.id)}">${escapeHtml(st.name)} (${escapeHtml(st.className)})</option>`).join("")}
               </select>
             </div>
             <div>
@@ -3106,7 +3110,7 @@
                 .join(", ") || (ex.targetClassNames || []).join(", ") || "Belum dipilih";
 
               return `
-                <div onclick="window.appActions.selectCbtExam('${ex.id}')" class="cursor-pointer rounded-[24px] p-5 transition border-2 ${
+                <div onclick="window.appActions.selectCbtExam('${escapeJsAttr(ex.id)}')" class="cursor-pointer rounded-[24px] p-5 transition border-2 ${
                   isSelected ? "bg-white border-salmon shadow-clayLg" : "bg-white/80 border-roseBorder hover:border-salmon/50 shadow-clay"
                 } space-y-3">
                   <div class="flex items-center justify-between gap-2">
@@ -3122,8 +3126,8 @@
                   <div class="pt-2 border-t border-roseBorder flex items-center justify-between text-[11px]">
                     <span class="font-bold text-taupe">Maks. Pelanggaran: ${ex.maxViolations || 3}x</span>
                     <div class="space-x-2" onclick="event.stopPropagation()">
-                      <button type="button" onclick="window.appActions.openExamModal('${ex.id}')" class="font-extrabold text-coralDark hover:underline">Edit</button>
-                      <button type="button" onclick="window.appActions.deleteExam('${ex.id}')" class="font-extrabold text-rose-600 hover:underline">Hapus</button>
+                      <button type="button" onclick="window.appActions.openExamModal('${escapeJsAttr(ex.id)}')" class="font-extrabold text-coralDark hover:underline">Edit</button>
+                      <button type="button" onclick="window.appActions.deleteExam('${escapeJsAttr(ex.id)}')" class="font-extrabold text-rose-600 hover:underline">Hapus</button>
                     </div>
                   </div>
                 </div>
@@ -3140,10 +3144,10 @@
                   <h3 class="text-base sm:text-lg font-extrabold text-espresso">${escapeHtml(selectedExam.title)} (${examQuestions.length} Butir)</h3>
                 </div>
                 <div class="flex flex-wrap items-center gap-2.5">
-                  <button type="button" onclick="window.appActions.openBulkQuestionModal('${selectedExam.id}')" class="px-4 py-2.5 rounded-full bg-periwinkleDark hover:bg-periwinkle text-white font-extrabold text-xs shadow-sm transition flex items-center gap-1.5">
+                  <button type="button" onclick="window.appActions.openBulkQuestionModal('${escapeJsAttr(selectedExam.id)}')" class="px-4 py-2.5 rounded-full bg-periwinkleDark hover:bg-periwinkle text-white font-extrabold text-xs shadow-sm transition flex items-center gap-1.5">
                     <i data-lucide="file-up" class="w-3.5 h-3.5"></i> Upload / Copy-Paste Soal
                   </button>
-                  <button type="button" onclick="window.appActions.openQuestionModal('${selectedExam.id}')" class="px-5 py-2.5 rounded-full bg-coral hover:bg-coralDark text-white font-extrabold text-xs shadow-pill transition flex items-center gap-1.5">
+                  <button type="button" onclick="window.appActions.openQuestionModal('${escapeJsAttr(selectedExam.id)}')" class="px-5 py-2.5 rounded-full bg-coral hover:bg-coralDark text-white font-extrabold text-xs shadow-pill transition flex items-center gap-1.5">
                     <i data-lucide="plus" class="w-3.5 h-3.5"></i> Tambah Butir Soal
                   </button>
                 </div>
@@ -3164,8 +3168,8 @@
                           <span class="text-[11px] font-bold text-taupe">Bobot: ${q.scoreWeight || 10} Poin</span>
                         </div>
                         <div class="space-x-2 text-xs">
-                          <button type="button" onclick="window.appActions.openQuestionModal('${selectedExam.id}', '${q.id}')" class="px-3 py-1 rounded-full bg-white hover:bg-peach font-bold">Edit</button>
-                          <button type="button" onclick="window.appActions.deleteQuestion('${q.id}')" class="px-3 py-1 rounded-full bg-rose-50 hover:bg-rose-600 hover:text-white text-rose-600 font-bold">Hapus</button>
+                          <button type="button" onclick="window.appActions.openQuestionModal('${escapeJsAttr(selectedExam.id)}', '${escapeJsAttr(q.id)}')" class="px-3 py-1 rounded-full bg-white hover:bg-peach font-bold">Edit</button>
+                          <button type="button" onclick="window.appActions.deleteQuestion('${escapeJsAttr(q.id)}')" class="px-3 py-1 rounded-full bg-rose-50 hover:bg-rose-600 hover:text-white text-rose-600 font-bold">Hapus</button>
                         </div>
                       </div>
                       <p class="text-xs sm:text-sm font-bold text-espresso leading-relaxed">${escapeHtml(q.questionText)}</p>
@@ -3248,7 +3252,7 @@
                   const checked = existing?.targetClassIds?.includes(c.id);
                   return `
                     <label class="flex items-center gap-2 text-xs font-bold cursor-pointer">
-                      <input type="checkbox" name="exm-classes" value="${c.id}" ${checked ? "checked" : ""} class="accent-salmon" />
+                      <input type="checkbox" name="exm-classes" value="${escapeHtml(c.id)}" ${checked ? "checked" : ""} class="accent-salmon" />
                       <span>${escapeHtml(c.name)}</span>
                     </label>
                   `;
@@ -3725,11 +3729,11 @@ KUNCI: Salah</pre>
           <div class="bg-white rounded-[24px] p-5 sm:p-6 shadow-clay border border-roseBorder flex flex-wrap items-center justify-between gap-4">
             <div class="flex flex-wrap items-center gap-3">
               <select onchange="window.appActions.selectMonitorExam(this.value)" class="px-4 py-2.5 rounded-full border border-roseBorder bg-blush/60 text-xs font-extrabold text-espresso">
-                ${exams.length === 0 ? `<option value="">Belum ada paket ujian</option>` : exams.map(ex => `<option value="${ex.id}" ${state.cbtMonitorExamId === ex.id ? "selected" : ""}>${escapeHtml(ex.title)}</option>`).join("")}
+                ${exams.length === 0 ? `<option value="">Belum ada paket ujian</option>` : exams.map(ex => `<option value="${escapeHtml(ex.id)}" ${state.cbtMonitorExamId === ex.id ? "selected" : ""}>${escapeHtml(ex.title)}</option>`).join("")}
               </select>
             </div>
             ${selectedExam ? `
-              <button type="button" onclick="window.appActions.printCbtResultsPdf('${selectedExam.id}')" class="px-4 py-2.5 rounded-full bg-blush hover:bg-peach text-espresso font-extrabold text-xs border border-roseBorder transition flex items-center gap-1.5">
+              <button type="button" onclick="window.appActions.printCbtResultsPdf('${escapeJsAttr(selectedExam.id)}')" class="px-4 py-2.5 rounded-full bg-blush hover:bg-peach text-espresso font-extrabold text-xs border border-roseBorder transition flex items-center gap-1.5">
                 <i data-lucide="printer" class="w-3.5 h-3.5 text-coralDark"></i> Cetak Berita Acara & Hasil CBT
               </button>
             ` : ""}
@@ -3769,8 +3773,8 @@ KUNCI: Salah</pre>
                       <td class="py-3 px-4 text-center">${sub.autoScore || 0} / ${sub.essayScore || 0}</td>
                       <td class="py-3 px-4 text-center font-extrabold text-periwinkleDark text-sm">${sub.totalScore || 0}</td>
                       <td class="py-3 px-4 text-right space-x-1.5 whitespace-nowrap">
-                        <button type="button" onclick="window.appActions.openGradeEssayModal('${sub.id}')" class="px-3 py-1 rounded-full bg-[#F6F2FE] text-periwinkleDark font-bold">Koreksi Essay</button>
-                        <button type="button" onclick="window.appActions.resetSubmission('${sub.id}')" class="px-3 py-1 rounded-full bg-rose-50 text-rose-600 font-bold">Reset</button>
+                        <button type="button" onclick="window.appActions.openGradeEssayModal('${escapeJsAttr(sub.id)}')" class="px-3 py-1 rounded-full bg-[#F6F2FE] text-periwinkleDark font-bold">Koreksi Essay</button>
+                        <button type="button" onclick="window.appActions.resetSubmission('${escapeJsAttr(sub.id)}')" class="px-3 py-1 rounded-full bg-rose-50 text-rose-600 font-bold">Reset</button>
                       </td>
                     </tr>
                   `).join("")}
@@ -3902,7 +3906,7 @@ KUNCI: Salah</pre>
               <h2 class="text-lg font-extrabold text-espresso">Pusat Rekapan Laporan & Cetak PDF</h2>
               <p class="text-xs text-taupe">Cetak laporan satuan per administrasi maupun bundel lengkap seluruh laporan dalam satu dokumen A4.</p>
             </div>
-            <button type="button" onclick="window.appActions.printAllReportsBundlePdf('${activeCls}', '${activeExm}')" class="px-6 py-3 rounded-full bg-coral hover:bg-coralDark text-white font-extrabold text-xs shadow-pill transition flex items-center gap-2">
+            <button type="button" onclick="window.appActions.printAllReportsBundlePdf('${escapeJsAttr(activeCls)}', '${escapeJsAttr(activeExm)}')" class="px-6 py-3 rounded-full bg-coral hover:bg-coralDark text-white font-extrabold text-xs shadow-pill transition flex items-center gap-2">
               <i data-lucide="files" class="w-4 h-4"></i> Cetak Bundel Semua Laporan PDF
             </button>
           </div>
@@ -3911,14 +3915,14 @@ KUNCI: Salah</pre>
           <div class="bg-white rounded-[24px] p-5 shadow-clay border border-roseBorder grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
               <label class="block text-[11px] font-extrabold uppercase text-taupe mb-1">Filter Kelas (Untuk Nilai & Absensi)</label>
-              <select onchange="window.appActions.setReportFilters(this.value, '${activeExm}')" class="w-full px-4 py-2.5 rounded-2xl border border-roseBorder bg-blush/50 text-xs font-extrabold">
-                ${classes.length === 0 ? `<option value="">Belum ada kelas</option>` : classes.map(c => `<option value="${c.id}" ${activeCls === c.id ? "selected" : ""}>${escapeHtml(c.name)}</option>`).join("")}
+              <select onchange="window.appActions.setReportFilters(this.value, '${escapeJsAttr(activeExm)}')" class="w-full px-4 py-2.5 rounded-2xl border border-roseBorder bg-blush/50 text-xs font-extrabold">
+                ${classes.length === 0 ? `<option value="">Belum ada kelas</option>` : classes.map(c => `<option value="${escapeHtml(c.id)}" ${activeCls === c.id ? "selected" : ""}>${escapeHtml(c.name)}</option>`).join("")}
               </select>
             </div>
             <div>
               <label class="block text-[11px] font-extrabold uppercase text-taupe mb-1">Filter Paket Ujian (Untuk Hasil CBT)</label>
-              <select onchange="window.appActions.setReportFilters('${activeCls}', this.value)" class="w-full px-4 py-2.5 rounded-2xl border border-roseBorder bg-blush/50 text-xs font-extrabold">
-                ${exams.length === 0 ? `<option value="">Belum ada paket CBT</option>` : exams.map(ex => `<option value="${ex.id}" ${activeExm === ex.id ? "selected" : ""}>${escapeHtml(ex.title)}</option>`).join("")}
+              <select onchange="window.appActions.setReportFilters('${escapeJsAttr(activeCls)}', this.value)" class="w-full px-4 py-2.5 rounded-2xl border border-roseBorder bg-blush/50 text-xs font-extrabold">
+                ${exams.length === 0 ? `<option value="">Belum ada paket CBT</option>` : exams.map(ex => `<option value="${escapeHtml(ex.id)}" ${activeExm === ex.id ? "selected" : ""}>${escapeHtml(ex.title)}</option>`).join("")}
               </select>
             </div>
           </div>
@@ -3931,14 +3935,14 @@ KUNCI: Salah</pre>
                 desc: "Leger nilai Tugas, UH, STS, SAS, CBT serta status ketuntasan KKTP per jenjang.",
                 count: `${state.data.students.filter(s => !activeCls || s.classId === activeCls).length} Siswa`,
                 icon: "award",
-                action: `window.appActions.printGradesPdf('${activeCls}')`
+                action: `window.appActions.printGradesPdf('${escapeJsAttr(activeCls)}')`
               },
               {
                 title: "Rekap Daftar Hadir / Absensi",
                 desc: "Matriks rekapitulasi Hadir, Sakit, Izin, Alfa dan persentase kehadiran per kelas.",
                 count: `${Object.values(state.data.attendance).filter(a => !activeCls || a.classId === activeCls).length} Pertemuan`,
                 icon: "user-check",
-                action: `window.appActions.printAttendancePdf('${activeCls}')`
+                action: `window.appActions.printAttendancePdf('${escapeJsAttr(activeCls)}')`
               },
               {
                 title: "Rekap Jurnal Mengajar",
@@ -3959,7 +3963,7 @@ KUNCI: Salah</pre>
                 desc: "Rekap nilai akhir ujian CBT, skor auto/essay, serta catatan pelanggaran anti-curang.",
                 count: `${Object.values(state.data.cbt_submissions).filter(s => !activeExm || s.examId === activeExm).length} Peserta`,
                 icon: "shield-alert",
-                action: `window.appActions.printCbtResultsPdf('${activeExm}')`
+                action: `window.appActions.printCbtResultsPdf('${escapeJsAttr(activeExm)}')`
               },
               {
                 title: "Laporan Bimbingan Wali",
@@ -4349,7 +4353,7 @@ KUNCI: Salah</pre>
                             <span class="px-3 py-1 rounded-full bg-emerald-600 text-white text-[10px] font-extrabold">Terkirim</span>
                           </div>
                         ` : `
-                          <button type="button" onclick="window.appActions.confirmStartStudentExam('${ex.id}')" class="w-full py-3 rounded-full bg-coral hover:bg-coralDark text-white font-extrabold text-xs shadow-pill transition flex items-center justify-center gap-2">
+                          <button type="button" onclick="window.appActions.confirmStartStudentExam('${escapeJsAttr(ex.id)}')" class="w-full py-3 rounded-full bg-coral hover:bg-coralDark text-white font-extrabold text-xs shadow-pill transition flex items-center justify-center gap-2">
                             <i data-lucide="play" class="w-4 h-4"></i> Mulai Kerjakan Ujian
                           </button>
                         `}
@@ -4589,7 +4593,7 @@ KUNCI: Salah</pre>
           const letChar = letters[idx] || String(idx + 1);
           const selected = currentAns === letChar;
           return `
-            <button type="button" onclick="window.appActions.setStudentAnswer('${q.id}', '${letChar}')" class="w-full text-left p-3.5 rounded-2xl border-2 transition flex items-center gap-3 ${
+            <button type="button" onclick="window.appActions.setStudentAnswer('${escapeJsAttr(q.id)}', '${letChar}')" class="w-full text-left p-3.5 rounded-2xl border-2 transition flex items-center gap-3 ${
               selected ? "border-salmon bg-peach/50 font-extrabold" : "border-roseBorder bg-blush/40 hover:bg-blush"
             }">
               <span class="w-7 h-7 rounded-full ${selected ? "bg-salmon text-white" : "bg-white text-espresso"} font-extrabold text-xs flex items-center justify-center shrink-0">${letChar}</span>
@@ -4606,7 +4610,7 @@ KUNCI: Salah</pre>
           const letChar = letters[idx] || String(idx + 1);
           const checked = arr.includes(letChar);
           return `
-            <button type="button" onclick="window.appActions.toggleMultiAnswer('${q.id}', '${letChar}')" class="w-full text-left p-3.5 rounded-2xl border-2 transition flex items-center gap-3 ${
+            <button type="button" onclick="window.appActions.toggleMultiAnswer('${escapeJsAttr(q.id)}', '${letChar}')" class="w-full text-left p-3.5 rounded-2xl border-2 transition flex items-center gap-3 ${
               checked ? "border-periwinkleDark bg-[#F6F2FE] font-extrabold" : "border-roseBorder bg-blush/40 hover:bg-blush"
             }">
               <span class="w-6 h-6 rounded-lg ${checked ? "bg-periwinkleDark text-white" : "bg-white border border-roseBorder"} text-xs font-extrabold flex items-center justify-center shrink-0">${checked ? "✓" : letChar}</span>
@@ -4620,7 +4624,7 @@ KUNCI: Salah</pre>
         return ["Benar", "Salah"].map(val => {
           const selected = currentAns === val;
           return `
-            <button type="button" onclick="window.appActions.setStudentAnswer('${q.id}', '${val}')" class="w-full text-left p-3.5 rounded-2xl border-2 transition font-extrabold text-xs sm:text-sm ${
+            <button type="button" onclick="window.appActions.setStudentAnswer('${escapeJsAttr(q.id)}', '${val}')" class="w-full text-left p-3.5 rounded-2xl border-2 transition font-extrabold text-xs sm:text-sm ${
               selected ? "border-salmon bg-peach/50 text-coralDark" : "border-roseBorder bg-blush/40"
             }">
               ${val}
@@ -4636,7 +4640,7 @@ KUNCI: Salah</pre>
         return pairs.map((p, idx) => `
           <div class="p-3 rounded-2xl bg-blush/50 border border-roseBorder grid grid-cols-1 sm:grid-cols-2 gap-2 items-center text-xs">
             <div class="font-bold text-espresso">${idx + 1}. ${escapeHtml(p.left)}</div>
-            <select onchange="window.appActions.setMatchAnswer('${q.id}', ${idx}, this.value)" class="px-3 py-2 rounded-xl border border-roseBorder bg-white font-bold">
+            <select onchange="window.appActions.setMatchAnswer('${escapeJsAttr(q.id)}', ${idx}, this.value)" class="px-3 py-2 rounded-xl border border-roseBorder bg-white font-bold">
               <option value="">-- Pilih Pasangan --</option>
               ${rightChoices.map(rc => `<option value="${escapeHtml(rc)}" ${ansObj[idx] === rc ? "selected" : ""}>${escapeHtml(rc)}</option>`).join("")}
             </select>
@@ -4646,12 +4650,12 @@ KUNCI: Salah</pre>
 
       if (q.type === "ISIAN_SINGKAT") {
         return `
-          <input type="text" value="${escapeHtml(currentAns || "")}" oninput="window.appActions.setStudentAnswer('${q.id}', this.value, false)" placeholder="Ketik jawaban singkat Anda di sini..." class="w-full px-4 py-3 rounded-2xl border border-roseBorder bg-blush/40 text-sm font-bold" />
+          <input type="text" value="${escapeHtml(currentAns || "")}" oninput="window.appActions.setStudentAnswer('${escapeJsAttr(q.id)}', this.value, false)" placeholder="Ketik jawaban singkat Anda di sini..." class="w-full px-4 py-3 rounded-2xl border border-roseBorder bg-blush/40 text-sm font-bold" />
         `;
       }
 
       return `
-        <textarea rows="5" oninput="window.appActions.setStudentAnswer('${q.id}', this.value, false)" placeholder="Tuliskan jawaban uraian lengkap Anda di sini..." class="w-full px-4 py-3 rounded-2xl border border-roseBorder bg-blush/40 text-sm">${escapeHtml(currentAns || "")}</textarea>
+        <textarea rows="5" oninput="window.appActions.setStudentAnswer('${escapeJsAttr(q.id)}', this.value, false)" placeholder="Tuliskan jawaban uraian lengkap Anda di sini..." class="w-full px-4 py-3 rounded-2xl border border-roseBorder bg-blush/40 text-sm">${escapeHtml(currentAns || "")}</textarea>
       `;
     }
 
